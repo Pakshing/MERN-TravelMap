@@ -1,14 +1,12 @@
 import * as React from "react";
-import { useState, useEffect, Fragment, useRef } from "react";
+import { useState, useEffect, Fragment } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
-
-import PopupForm from "./components/PopupForm";
 import Card from "./components/Card";
-import OutsideAlerter from "./OutsideAlerter";
 import { listLogEntries } from "./API";
 
 const App = () => {
   const [logEntries, setLogEntries] = useState([]);
+  const [addEntryLocation, setAddEntryLocation] = useState(null);
   const [showPopup, setShowPopup] = useState({});
   const [viewport, setViewport] = useState({
     width: "100vw",
@@ -22,17 +20,25 @@ const App = () => {
     setLogEntries(logEntries);
   };
 
-  let menuRef = useRef();
-
   useEffect(() => {
     getEntries();
   }, []);
+
+  const showAddMarkerPopup = (event) => {
+    const [longitude, latitude] = event.lngLat;
+    setAddEntryLocation({
+      latitude,
+      longitude,
+    });
+  };
+
   return (
     <ReactMapGL
       {...viewport}
       mapStyle="mapbox://styles/pakshing/ckddrnlrt4dvz1ip8brlo1at2"
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
+      onDblClick={showAddMarkerPopup}
     >
       {logEntries.map((entry) => (
         <Fragment key={entry._id}>
@@ -42,7 +48,6 @@ const App = () => {
             longitude={entry.longitude}
             offsetLeft={-20}
             offsetTop={-10}
-            onClick
           >
             <div
               onClick={() =>
@@ -70,7 +75,7 @@ const App = () => {
             </div>
           </Marker>
           {showPopup[entry._id] ? (
-            <div ref={menuRef}>
+            <div>
               <Popup
                 latitude={entry.latitude}
                 longitude={entry.longitude}
@@ -97,6 +102,49 @@ const App = () => {
           ) : null}
         </Fragment>
       ))}
+      {addEntryLocation ? (
+        <Fragment>
+          <Marker
+            latitude={addEntryLocation.latitude}
+            longitude={addEntryLocation.longitude}
+            offsetLeft={-20}
+            offsetTop={-20}
+          >
+            <div>
+              <svg
+                className="marker"
+                style={{
+                  width: "24px",
+                  height: "24px",
+                  color: "white",
+                }}
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+          </Marker>
+          <Popup
+            latitude={addEntryLocation.latitude}
+            longitude={addEntryLocation.longitude}
+            offsetLeft={-10}
+            offsetTop={-20}
+            closeButton={true}
+            closeOnClick={false}
+            //closeOnMove={() => setShowPopup({})}
+            dynamicPosition={true}
+            onClose={() => setAddEntryLocation(null)}
+            //anchor="top"
+          >
+            <h3>Add Your New Entry Here</h3>
+          </Popup>
+        </Fragment>
+      ) : null}
     </ReactMapGL>
   );
 };
