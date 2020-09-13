@@ -3,7 +3,7 @@
 }
 
 .card:hover {
-  box-shadow: 5px 10px 20px 1px rgba(0, 0, 0, 0.253) !important;
+  box-shadow: 5px 10px 20px 1px rgba(0, 0, 0, 0.575) !important;
 }
 
 .card-body {
@@ -20,7 +20,7 @@
 }
 .card-img-top {
   transform: scale(1);
-  transition: transform 0.5 ease;
+  transition: transform 2s ease;
 }
 
 .card-img-top:hover {

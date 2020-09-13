@@ -1,9 +1,10 @@
 import React, { useRef, useEffect } from "react";
 
 import "./card-style.css";
-const Card = ({ title, comment, dateVisited, image }) => {
+const Card = ({ setShowPopup, title, comment, visitedDate, image }) => {
   return (
     <div
+      onClick={() => setShowPopup({})}
       style={{
         borderStyle: "outset",
         borderColor: "#0e5157",
@@ -22,7 +23,8 @@ const Card = ({ title, comment, dateVisited, image }) => {
       </div>
       <div className="card-body text-dark">
         <h4 className="card-title">{title}</h4>
-        <p className="card-text text-secondary"> {comment}</p>
+        <p> {comment}</p>
+        <p className="card-text text-secondary"> {visitedDate}</p>
       </div>
     </div>
   );

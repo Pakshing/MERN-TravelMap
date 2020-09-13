@@ -1,9 +1,10 @@
 import * as React from "react";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useRef } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 
 import PopupForm from "./components/PopupForm";
 import Card from "./components/Card";
+import OutsideAlerter from "./OutsideAlerter";
 import { listLogEntries } from "./API";
 
 const App = () => {
@@ -20,6 +21,9 @@ const App = () => {
     const logEntries = await listLogEntries();
     setLogEntries(logEntries);
   };
+
+  let menuRef = useRef();
+
   useEffect(() => {
     getEntries();
   }, []);
@@ -66,27 +70,30 @@ const App = () => {
             </div>
           </Marker>
           {showPopup[entry._id] ? (
-            <Popup
-              latitude={entry.latitude}
-              longitude={entry.longitude}
-              closeButton={false}
-              closeOnClick={false}
-              //closeOnMove={() => setShowPopup({})}
-              dynamicPosition={true}
-              onClose={() => setShowPopup({})}
-              //anchor="top"
-            >
-              <Card
-                title={entry.title}
-                comment={entry.comments}
-                visitedDate={new Date(entry.visitDate).toLocaleDateString()}
-                image={
-                  entry.image
-                    ? entry.image
-                    : "https://archziner.com/wp-content/uploads/2019/05/blue-sky-planet-stars-drawn-cute-backgrounds-for-girls.jpg"
-                }
-              ></Card>
-            </Popup>
+            <div ref={menuRef}>
+              <Popup
+                latitude={entry.latitude}
+                longitude={entry.longitude}
+                closeButton={false}
+                closeOnClick={false}
+                //closeOnMove={() => setShowPopup({})}
+                dynamicPosition={true}
+                onClose={() => setShowPopup({})}
+                //anchor="top"
+              >
+                <Card
+                  setShowPopup={setShowPopup}
+                  title={entry.title}
+                  comment={entry.comments}
+                  visitedDate={new Date(entry.visitDate).toLocaleDateString()}
+                  image={
+                    entry.image
+                      ? entry.image
+                      : "https://archziner.com/wp-content/uploads/2019/05/blue-sky-planet-stars-drawn-cute-backgrounds-for-girls.jpg"
+                  }
+                ></Card>
+              </Popup>
+            </div>
           ) : null}
         </Fragment>
       ))}
