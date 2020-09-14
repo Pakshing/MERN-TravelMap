@@ -1,7 +1,9 @@
 import * as React from "react";
 import { useState, useEffect, Fragment } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
+
 import Card from "./components/Card";
+import LogEntryForm from "./components/LogEntryForm";
 import { listLogEntries } from "./API";
 
 const App = () => {
@@ -141,7 +143,15 @@ const App = () => {
             onClose={() => setAddEntryLocation(null)}
             //anchor="top"
           >
-            <h3>Add Your New Entry Here</h3>
+            <div className="popup">
+              <LogEntryForm
+                onClose={() => {
+                  setAddEntryLocation(null);
+                  getEntries();
+                }}
+                location={addEntryLocation}
+              />
+            </div>
           </Popup>
         </Fragment>
       ) : null}
