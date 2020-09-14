@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "name": "travel-log-pak-api",
+  "builds": [
+    {
+      "src": "src/index.js",
+      "use": "@now/node-server"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/.*",
+      "dest": "src/index.js"
+    }
+  ],
+  "alias": ["travel-log-pak-api"],
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "1337",
+    "DATABASE_URL": "@travel-log-db",
+    "CORS_ORIGIN": "https://travel-log-seven.vercel.app"
+  }
+}
