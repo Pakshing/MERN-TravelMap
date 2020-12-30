@@ -2,6 +2,11 @@ import React, { useRef, useEffect } from "react";
 
 import "./card-style.css";
 const Card = ({ setShowPopup, title, comment, visitedDate, image }) => {
+
+  const addDefaultImage = e =>{
+    e.target.src = "https://archziner.com/wp-content/uploads/2019/05/blue-sky-planet-stars-drawn-cute-backgrounds-for-girls.jpg";
+  }
+
   return (
     <div
       onClick={() => setShowPopup({})}
@@ -14,7 +19,9 @@ const Card = ({ setShowPopup, title, comment, visitedDate, image }) => {
       className="card text-center shadow"
     >
       <div className="overflow">
+        
         <img
+          onError={e=>addDefaultImage(e)}
           border="black"
           src={image}
           alt="No Image"
