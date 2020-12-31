@@ -18,6 +18,7 @@ const App = () => {
     zoom: 4.5,
   });
   const getEntries = async () => {
+    console.log("getEntries is called")
     const logEntries = await listLogEntries();
     setLogEntries(logEntries);
   };
@@ -41,6 +42,7 @@ const App = () => {
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
       onDblClick={showAddMarkerPopup}
+      doubleClickZoom = {false}
     >
       {logEntries.map((entry) => (
         <Fragment key={entry._id}>
@@ -89,6 +91,7 @@ const App = () => {
                 //anchor="top"
               >
                 <Card
+                  getEntries = {getEntries}
                   setShowPopup={setShowPopup}
                   title={entry.title}
                   comment={entry.comments}
@@ -98,6 +101,7 @@ const App = () => {
                       ? entry.image
                       : "https://archziner.com/wp-content/uploads/2019/05/blue-sky-planet-stars-drawn-cute-backgrounds-for-girls.jpg"
                   }
+                  entry ={entry}
                 ></Card>
               </Popup>
             </div>

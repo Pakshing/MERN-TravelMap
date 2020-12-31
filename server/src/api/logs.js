@@ -28,4 +28,16 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.delete("/",async (req,res, next)=> {
+  try{
+    console.log("from server delete: " + req.body.id)
+    //res.json();
+    const deleted = await LogEntry.deleteOne({_id:req.body.id})
+    res.json()
+  }catch(error){
+    console.log(error.name)
+    res.status(401);
+  }
+})
+
 module.exports = router;

@@ -8,6 +8,21 @@ export async function listLogEntries() {
   return response.json();
 }
 
+export async function deleteEntry(entry_id) {
+
+  const response = await fetch(`${API_URL}/api/logs`, {
+    method: "DELETE",
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8' // Indicates the content 
+     },
+    body: JSON.stringify({id:entry_id}),
+  });
+  //console.log("\n\nid:"+entry_id)
+}
+
+
+
+
 export async function createLogEntry(entry) {
   // const apiKey = entry.apiKey;
   // delete entry.apiKey;

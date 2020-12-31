@@ -4,13 +4,9 @@ import { createLogEntry } from "../API";
 
 //import { FormControl } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+
 import 'date-fns';
-import {KeyboardDatePicker,MuiPickersUtilsProvider} from '@material-ui/pickers';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import { da } from "date-fns/esm/locale";
+
 
 
 export default function LogEntryForm ({ location, onClose }) {
@@ -25,34 +21,25 @@ export default function LogEntryForm ({ location, onClose }) {
   const [image,setImage] = useState("");
 
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
-    },
-  }));
+ 
+  const buttonStyle={
+    background: 'linear-gradient(45deg, #FE6B8B, #FF8E53)',
+    width: '500px',
+    color: 'white',
+    border: 'none'
+  }
+
+  const formStyle={
+    background: 'black',
+    width: '600px'
+  }
+
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
-  const handleTitleChange = (e)=>{
-    console.log(e.target.value);
-    //setTitle(title);
-  }
-  const handleCommentsChange = (e)=>{
-    //setComments(comments);
-  }
-
-  const handleDescriptionChange = (e)=>{
-    //setDescription(e);
-  }
-  const handleImageChange = (e)=>{
-    //setImage(image);
-  }
-
+  
 
 
 
@@ -74,6 +61,7 @@ export default function LogEntryForm ({ location, onClose }) {
       //console.log(selectedDate);
       console.log("this is data: 2" +data);
       await createLogEntry(data);
+      //alert("Entry Created")
       onClose();
     } catch (error) {
       console.error(error);
@@ -84,6 +72,7 @@ export default function LogEntryForm ({ location, onClose }) {
 
 
   return (
+
     <form onSubmit={handleSubmit(onSubmit)} className="entry-form">
       {error ? <h3 className="error">{error}</h3> : null}
 
@@ -132,10 +121,14 @@ export default function LogEntryForm ({ location, onClose }) {
         />
 
       <TextField
+          required
           name="date"
           id="standard-textarea"
           type = "date"
-          style = {{width: 500}}
+          style = {{
+            width: 500,
+            marginTop:10  
+          }}
           onChange ={e=>setImage(e.target.value)}
           defaultValue = {selectedDate}
           ref={inputRef}
@@ -143,7 +136,10 @@ export default function LogEntryForm ({ location, onClose }) {
       
 
      
-      <button disabled={loading}>
+      <button 
+      disabled={loading}
+      style={buttonStyle}
+      >
         {loading ? "Loading..." : "Create Entry"}
       </button>
     </form>
