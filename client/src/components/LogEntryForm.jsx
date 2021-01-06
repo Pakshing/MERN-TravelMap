@@ -6,7 +6,6 @@ import { createLogEntry } from "../API";
 import TextField from '@material-ui/core/TextField';
 
 import 'date-fns';
-import { set } from "date-fns";
 
 
 
@@ -19,9 +18,7 @@ export default function LogEntryForm ({ location, onClose }) {
   const [title,setTitle] = useState("");
   const [comments,setComments] = useState("");
   const [description, setDescription] = useState("");
-  const [image,setImage] = useState('');
-  //const {img,setImg} = useState("");
-
+  const [image,setImage] = useState("");
 
 
  
@@ -42,26 +39,6 @@ export default function LogEntryForm ({ location, onClose }) {
     setSelectedDate(date);
   };
 
-  const handleUploadImage = (e) =>{
-    e.preventDefault();
-
-    let file = e.target.files[0];
-    let reader = new FileReader();
-
-    if (e.target.files.length === 0) {
-      return;
-    }
-
-    reader.onloadend = (e) => {
-      console.log("reader: ", reader.result)
-      setImage(reader.result);
-      console.log("img:", image);
-    }
-
-    reader.readAsDataURL(file);
-    
-  }
-
   
 
 
@@ -70,22 +47,20 @@ export default function LogEntryForm ({ location, onClose }) {
   const onSubmit = async() => {
     try {
       setLoading(true);
-      //console.log("this is location: 1" +location.latitude);
-      let logEntry={};
+      console.log("this is location: 1" +location.latitude);
+      let data={};
       //console.log("this is data: 1" +data);
-      logEntry.image = image;
-      //console.log("image: ",image);
-      logEntry.latitude = location.latitude;
-      logEntry.longitude = location.longitude;
-      logEntry.title = title;
-      logEntry.comments = comments;
-      logEntry.visitDate = selectedDate;
-      logEntry.description = description;
-      //logEntry.image = image;
+      data.latitude = location.latitude;
+      data.longitude = location.longitude;
+      data.title = title;
+      data.comments = comments;
+      data.visitDate = selectedDate;
+      data.description = description;
+      data.image = image;
       //data.visitDate = selectedDate;
       //console.log(selectedDate);
-      //console.log("this is data: 2" +data);
-      await createLogEntry(logEntry);
+      console.log("this is data: 2" +data);
+      await createLogEntry(data);
       //alert("Entry Created")
       onClose();
     } catch (error) {
@@ -133,7 +108,7 @@ export default function LogEntryForm ({ location, onClose }) {
           style = {{width: 500}}
           ref={inputRef}
         />
-      
+
       <TextField
           name="image"
           id="standard-textarea"
@@ -141,11 +116,10 @@ export default function LogEntryForm ({ location, onClose }) {
           placeholder="https://......"
           multiline
           style = {{width: 500}}
-          //onChange ={e=>setImage(e.target.value)}
+          onChange ={e=>setImage(e.target.value)}
           ref={inputRef}
         />
-        <input type = "file" name="image" onChange={handleUploadImage} ref = {inputRef}/> 
-       
+
       <TextField
           required
           name="date"
@@ -155,11 +129,13 @@ export default function LogEntryForm ({ location, onClose }) {
             width: 500,
             marginTop:10  
           }}
-          onChange ={e=>setSelectedDate(e.target.value)}
+          onChange ={e=>setImage(e.target.value)}
           defaultValue = {selectedDate}
           ref={inputRef}
         />
       
+
+     
       <button 
       disabled={loading}
       style={buttonStyle}

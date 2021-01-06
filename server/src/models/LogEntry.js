@@ -15,11 +15,7 @@ const logEntrySchema = new Schema(
     },
     description: String,
     comments: String,
-    //image: String,
-    image:{
-      data:Buffer,
-      contentType: String
-    },
+    image: String,
     rating: {
       type: Number,
       min: 0,
