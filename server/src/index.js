@@ -2,7 +2,11 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
+const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
+const multer = require("multer")
+
+
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -16,6 +20,10 @@ mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+
+
+app.use('/uploads',express.static('uploads'))
 app.use(morgan("common"));
 app.use(helmet());
 app.use(
@@ -23,7 +31,10 @@ app.use(
     origin: process.env.CORS_ORIGIN,
   })
 );
-app.use(express.json());
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 
 app.get("/", (req, res) => {
   res.json({

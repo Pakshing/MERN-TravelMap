@@ -1,8 +1,21 @@
 const { Router } = require("express");
-
 const LogEntry = require("../models/LogEntry");
-
 const router = Router();
+const multer = require("multer");
+var fs = require("fs");
+
+const storage = multer.diskStorage({
+  destination: function(req,file,cb){
+    cb(null,'./upload/')
+  },
+  filename: function(req,file,cb){
+    cb(null, new Date().toISOString() +file.originalname);
+  }
+})
+
+const upload = multer({ storage:storage })
+
+
 
 router.get("/", async (req, res) => {
   try {
@@ -13,9 +26,24 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", upload.single("image"),async (req, res, next) => {
+  console.log("image",req.file);
   try {
-    const logEntry = new LogEntry(req.body);
+    //console.log("req.body",req.body)
+    const logEntry = new LogEntry(
+      {
+        image : req.body.image,
+        //console.log("image: ",image);
+        latitude : req.body.latitude,
+        longitude : req.body.longitude,
+        title : req.body.title,
+        comments : req.body.comments,
+        visitDate : req.body.visitDate,
+        description : req.body.description
+      }
+    );
+    
+    console.log("logs:", logEntry);
     const createdEntry = await logEntry.save();
     res.json(createdEntry);
     console.log(req.body);
