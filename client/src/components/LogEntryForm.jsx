@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { createLogEntry } from "../API";
+import { createLogEntry,uploadImgae } from "../API";
+
 
 //import { FormControl } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Button from '@material-ui/core/Button'
+import ImageUploader from 'react-images-upload';
 
 import 'date-fns';
 
@@ -12,13 +16,16 @@ import 'date-fns';
 export default function LogEntryForm ({ location, onClose }) {
   const inputRef = React.createRef(null);
   const [loading, setLoading] = useState(false);
+  const [image,setImage] = useState([]);
+  const [pictures, setPictures] = useState([]);
+
   const [error, setError] = useState("");
   const { register, handleSubmit,errors } = useForm();
   const [selectedDate, setSelectedDate] = useState(Date.now()); 
   const [title,setTitle] = useState("");
   const [comments,setComments] = useState("");
   const [description, setDescription] = useState("");
-  const [image,setImage] = useState("");
+  //const [image,setImage] = useState("");
 
 
  
@@ -39,6 +46,11 @@ export default function LogEntryForm ({ location, onClose }) {
     setSelectedDate(date);
   };
 
+  const onDrop = picture => {
+    setPictures([...pictures, picture]);
+    console.log(picture)
+  };
+
   
 
 
@@ -47,9 +59,13 @@ export default function LogEntryForm ({ location, onClose }) {
   const onSubmit = async() => {
     try {
       setLoading(true);
-      console.log("this is location: 1" +location.latitude);
+      //console.log("this is location: 1" +location.latitude);
+      console.log("onSubmit", pictures)
+      const uploadResponse = await uploadImgae(pictures)
+
+      console.log("uploadResponse", uploadResponse)
       let data={};
-      //console.log("this is data: 1" +data);
+      //console.log("this is data: 1" +data)
       data.latitude = location.latitude;
       data.longitude = location.longitude;
       data.title = title;
@@ -73,6 +89,7 @@ export default function LogEntryForm ({ location, onClose }) {
 
   return (
 
+    <div style={{width:400}}>
     <form onSubmit={handleSubmit(onSubmit)} className="entry-form">
       {error ? <h3 className="error">{error}</h3> : null}
 
@@ -109,16 +126,19 @@ export default function LogEntryForm ({ location, onClose }) {
           ref={inputRef}
         />
 
-      <TextField
-          name="image"
-          id="standard-textarea"
-          label="Image Link"
-          placeholder="https://......"
-          multiline
-          style = {{width: 500}}
-          onChange ={e=>setImage(e.target.value)}
-          ref={inputRef}
+        <div>
+        <ImageUploader
+            singleImage = {true}
+            withIcon={true}
+            style={{width:500}}
+            withPreview={true}
+            buttonText='Select an image'
+            onChange={onDrop}
+            imgExtension={['.jpg', '.gif', '.png', '.gif']}
+            maxFileSize={5242880}
         />
+
+        </div>
 
       <TextField
           required
@@ -143,6 +163,7 @@ export default function LogEntryForm ({ location, onClose }) {
         {loading ? "Loading..." : "Create Entry"}
       </button>
     </form>
+    </div>
     
   );
 };

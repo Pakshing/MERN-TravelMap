@@ -1,4 +1,4 @@
-
+import axios from 'axios'
 
 const API_URL =
   window.location.hostname === "localhost"
@@ -21,6 +21,21 @@ export async function deleteEntry(entry_id) {
   });
   //console.log("\n\nid:"+entry_id)
 }
+
+export async function uploadImgae(image){
+  console.log("image", image)
+  let uploadData = new FormData();
+  uploadData.append('image',image);
+  console.log("UploadData",uploadData)
+  axios.post(`${API_URL}/api/logs/upload`,uploadData)
+  .then(result=>{
+    console.log(result)
+  })
+  //console.log("from API.js", response)
+  return ;
+}
+
+
 
 
 
