@@ -24,15 +24,29 @@ export async function deleteEntry(entry_id) {
 
 export async function uploadImgae(image){
   console.log("image", image)
-  let uploadData = new FormData();
-  uploadData.append('image',image);
-  console.log("UploadData",uploadData)
-  axios.post(`${API_URL}/api/logs/upload`,uploadData)
-  .then(result=>{
-    console.log(result)
+  let data = new FormData();
+  data.append('image',image)
+
+  const config = {
+    headers: {
+        'content-type': 'multipart/form-data'
+    }
+};
+ 
+axios.post(`${API_URL}/api/logs/upload`,data,config)
+  .then(function (response) {
+      //handle success
+      console.log(response);
   })
+  .catch(function (response) {
+      //handle error
+      console.log(response);
+  });
+  
+ 
+
   //console.log("from API.js", response)
-  return ;
+  return "Upload Error";
 }
 
 

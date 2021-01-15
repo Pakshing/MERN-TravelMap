@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createLogEntry,uploadImgae } from "../API";
+import axios from 'axios'
 
 
 //import { FormControl } from '@material-ui/core';
@@ -52,6 +53,12 @@ export default function LogEntryForm ({ location, onClose }) {
   };
 
   
+  const onTest = async() =>{
+    await axios.post("http://localhost:1337/api/logs/test",{name:"pak"})
+    .then(res=>{
+      console.log("From server", res)
+    })
+  }
 
 
 
@@ -60,10 +67,23 @@ export default function LogEntryForm ({ location, onClose }) {
     try {
       setLoading(true);
       //console.log("this is location: 1" +location.latitude);
-      console.log("onSubmit", pictures)
-      const uploadResponse = await uploadImgae(pictures)
+      //console.log("onSubmit", pictures)
+      //const uploadResponse = await uploadImgae(pictures)
+      let uploadPromises=pictures.map(image=>{
+        let data = new FormData()
+        data.append('image',image);
+        return axios.post("http://localhost:1337/api/logs/upload",data)
+      })
 
-      console.log("uploadResponse", uploadResponse)
+      axios.all(uploadPromises)
+        .then(result=>{
+          console.log(result)
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+
+      //console.log("uploadResponse", uploadResponse)
       let data={};
       //console.log("this is data: 1" +data)
       data.latitude = location.latitude;
@@ -76,7 +96,7 @@ export default function LogEntryForm ({ location, onClose }) {
       //data.visitDate = selectedDate;
       //console.log(selectedDate);
       console.log("this is data: 2" +data);
-      await createLogEntry(data);
+      //await createLogEntry(data);
       //alert("Entry Created")
       onClose();
     } catch (error) {
@@ -88,11 +108,11 @@ export default function LogEntryForm ({ location, onClose }) {
 
 
   return (
-
+    
     <div style={{width:400}}>
     <form onSubmit={handleSubmit(onSubmit)} className="entry-form">
       {error ? <h3 className="error">{error}</h3> : null}
-
+     
       <TextField
           required
           name="title"
