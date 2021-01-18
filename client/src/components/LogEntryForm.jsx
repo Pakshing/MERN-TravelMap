@@ -49,20 +49,11 @@ export default function LogEntryForm ({ location, onClose }) {
   };
 
   const onDrop = picture => {
-    setPictures([...pictures, picture]);
+    setPictures(picture);
     console.log(picture)
   };
 
   
-  const onTest = async() =>{
-    await axios.post("http://localhost:1337/api/logs/test",{name:"pak"})
-    .then(res=>{
-      console.log("From server", res)
-    })
-  }
-
-
-
 
   const onSubmit = async() => {
     try {
@@ -70,12 +61,9 @@ export default function LogEntryForm ({ location, onClose }) {
       //console.log("this is location: 1" +location.latitude);
       //console.log("onSubmit", pictures)
       //const uploadResponse = await uploadImgae(pictures)
-        console.log("pictures",pictures)
-        console.log("image=>",pictures[0][0].name)
-        let formdata = new FormData()
-        formdata.append('image',pictures[0][0],pictures[0][0].name);
-        let result = await axios.post("http://localhost:1337/api/logs/upload",formdata)
-        console.log("result",result)
+      
+      const imageResponse = await uploadImgae(pictures) 
+      console.log("downloadUrl",imageResponse.data.downloadUrl)
 
       //console.log("uploadResponse", uploadResponse)
       let data={};
@@ -86,7 +74,7 @@ export default function LogEntryForm ({ location, onClose }) {
       data.comments = comments;
       data.visitDate = selectedDate;
       data.description = description;
-      data.image = result.data.downloadUrl;
+      data.image = imageResponse.data.downloadUrl;
       //data.visitDate = selectedDate;
       //console.log(selectedDate);
       console.log("this is data: 2" +data.image);

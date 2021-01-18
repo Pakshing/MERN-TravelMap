@@ -22,31 +22,27 @@ export async function deleteEntry(entry_id) {
   //console.log("\n\nid:"+entry_id)
 }
 
-export async function uploadImgae(image){
-  console.log("image", image)
-  let data = new FormData();
-  data.append('image',image)
-
-  const config = {
-    headers: {
-        'content-type': 'multipart/form-data'
-    }
-};
+export async function uploadImgae(pictures){
  
-axios.post(`${API_URL}/api/logs/upload`,data,config)
-  .then(function (response) {
-      //handle success
-      console.log(response);
-  })
-  .catch(function (response) {
-      //handle error
-      console.log(response);
-  });
+
+  try{
+    let formdata = new FormData()
+    formdata.append('image',pictures[0],pictures[0].name);
+    let result = await axios.post(`${API_URL}/api/logs/upload`,formdata)
+    return result;
+  }catch(error){
+    console.log("error",error)
+    return ""
+  }
   
+  
+
+ 
+
  
 
   //console.log("from API.js", response)
-  return "Upload Error";
+ 
 }
 
 
