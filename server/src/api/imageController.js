@@ -32,7 +32,7 @@ var upload = multer({
 
   function uploadToS3(req,res){
       req.s3Key = uuid();
-      let downloadUrl =`https://travelmap2021.s3.${process.env.region}.amazonaws.com/${req.s3Key}`
+      let downloadUrl =`https://travelmap-bucket-2021.s3.${process.env.region}.amazonaws.com/${req.s3Key}`
     return new Promise((resolve,reject)=>{
         return singleFileUpload(req,res,err=>{
             if(err) reject(err);

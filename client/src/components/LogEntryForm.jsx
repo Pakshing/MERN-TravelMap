@@ -70,8 +70,9 @@ export default function LogEntryForm ({ location, onClose }) {
       //console.log("onSubmit", pictures)
       //const uploadResponse = await uploadImgae(pictures)
       let uploadPromises=pictures.map(image=>{
+        console.log("image=>",image[0].name)
         let data = new FormData()
-        data.append('image',image);
+        data.append('image',image[0],image[0].name);
         return axios.post("http://localhost:1337/api/logs/upload",data)
       })
 
