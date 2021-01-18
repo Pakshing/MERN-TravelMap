@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button'
 import ImageUploader from 'react-images-upload';
 
 import 'date-fns';
+import { set } from "date-fns";
 
 
 
@@ -26,7 +27,7 @@ export default function LogEntryForm ({ location, onClose }) {
   const [title,setTitle] = useState("");
   const [comments,setComments] = useState("");
   const [description, setDescription] = useState("");
-  //const [image,setImage] = useState("");
+  const [imageUrl,setImageUrl] = useState("");
 
 
  
@@ -69,20 +70,12 @@ export default function LogEntryForm ({ location, onClose }) {
       //console.log("this is location: 1" +location.latitude);
       //console.log("onSubmit", pictures)
       //const uploadResponse = await uploadImgae(pictures)
-      let uploadPromises=pictures.map(image=>{
-        console.log("image=>",image[0].name)
-        let data = new FormData()
-        data.append('image',image[0],image[0].name);
-        return axios.post("http://localhost:1337/api/logs/upload",data)
-      })
-
-      axios.all(uploadPromises)
-        .then(result=>{
-          console.log(result)
-        })
-        .catch(err=>{
-          console.log(err)
-        })
+        console.log("pictures",pictures)
+        console.log("image=>",pictures[0][0].name)
+        let formdata = new FormData()
+        formdata.append('image',pictures[0][0],pictures[0][0].name);
+        let result = await axios.post("http://localhost:1337/api/logs/upload",formdata)
+        console.log("result",result)
 
       //console.log("uploadResponse", uploadResponse)
       let data={};
@@ -93,11 +86,11 @@ export default function LogEntryForm ({ location, onClose }) {
       data.comments = comments;
       data.visitDate = selectedDate;
       data.description = description;
-      data.image = image;
+      data.image = result.data.downloadUrl;
       //data.visitDate = selectedDate;
       //console.log(selectedDate);
-      console.log("this is data: 2" +data);
-      //await createLogEntry(data);
+      console.log("this is data: 2" +data.image);
+      await createLogEntry(data);
       //alert("Entry Created")
       onClose();
     } catch (error) {
