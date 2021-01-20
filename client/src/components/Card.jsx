@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, {} from "react";
 import { deleteEntry } from "../API";
 
 import "./card-style.css";
@@ -43,7 +43,7 @@ const Card = ({ setShowPopup, title, comment, visitedDate, image,entry,getEntrie
           onError={e=>addDefaultImage(e)}
           border="black"
           src={image}
-          alt="No Image"
+          alt="No Found"
           className="card-img-top"
         />
       </div>

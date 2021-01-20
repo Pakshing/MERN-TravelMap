@@ -20,7 +20,6 @@ const App = () => {
     zoom: 4.5,
   });
   const getEntries = async () => {
-    console.log("getEntries is called")
     const logEntries = await listLogEntries();
     setLogEntries(logEntries);
   };

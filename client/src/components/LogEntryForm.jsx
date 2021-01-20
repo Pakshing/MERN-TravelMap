@@ -1,33 +1,30 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createLogEntry,uploadImgae } from "../API";
-import axios from 'axios'
+
 
 
 //import { FormControl } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import Button from '@material-ui/core/Button'
 import ImageUploader from 'react-images-upload';
 
 import 'date-fns';
-import { set } from "date-fns";
+
 
 
 
 export default function LogEntryForm ({ location, onClose }) {
   const inputRef = React.createRef(null);
   const [loading, setLoading] = useState(false);
-  const [image,setImage] = useState([]);
   const [pictures, setPictures] = useState([]);
 
   const [error, setError] = useState("");
-  const { register, handleSubmit,errors } = useForm();
-  const [selectedDate, setSelectedDate] = useState(Date.now()); 
+  const {handleSubmit} = useForm();
+  const [selectedDate, setSelectedDate] = useState(null); 
   const [title,setTitle] = useState("");
   const [comments,setComments] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUrl,setImageUrl] = useState("");
+  
 
 
  
@@ -38,15 +35,6 @@ export default function LogEntryForm ({ location, onClose }) {
     border: 'none'
   }
 
-  const formStyle={
-    background: 'black',
-    width: '600px'
-  }
-
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   const onDrop = picture => {
     setPictures(picture);
@@ -58,26 +46,21 @@ export default function LogEntryForm ({ location, onClose }) {
   const onSubmit = async() => {
     try {
       setLoading(true);
-      //console.log("this is location: 1" +location.latitude);
-      //console.log("onSubmit", pictures)
-      //const uploadResponse = await uploadImgae(pictures)
-      
-      const imageResponse = await uploadImgae(pictures) 
-      //console.log("downloadUrl",imageResponse.data.downloadUrl)
-
-      //console.log("uploadResponse", uploadResponse)
       let data={};
-      //console.log("this is data: 1" +data)
+      if(pictures.length ===0){
+        data.image =""
+      }else{
+        const imageResponse = await uploadImgae(pictures) 
+        data.image = imageResponse.data.downloadUrl;
+      }
+     
       data.latitude = location.latitude;
       data.longitude = location.longitude;
       data.title = title;
       data.comments = comments;
       data.visitDate = selectedDate;
       data.description = description;
-      data.image = imageResponse.data.downloadUrl;
-      //data.visitDate = selectedDate;
-      //console.log(selectedDate);
-      //console.log("this is data: 2" +data.image);
+     
       await createLogEntry(data);
       //alert("Entry Created")
       onClose();
@@ -151,7 +134,7 @@ export default function LogEntryForm ({ location, onClose }) {
             width: 500,
             marginTop:10  
           }}
-          onChange ={e=>setImage(e.target.value)}
+          onChange ={e=>setSelectedDate(e.target.value)}
           defaultValue = {selectedDate}
           ref={inputRef}
         />

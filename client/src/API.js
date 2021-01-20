@@ -3,7 +3,7 @@ import axios from 'axios'
 const API_URL =
   window.location.hostname === "localhost"
     ? "http://localhost:1337"
-    : "https://travel-log-pak-api.vercel.app";
+    : "https://travel-log-pak-api.pakshing.vercel.app";
 
 export async function listLogEntries() {
   const response = await fetch(`${API_URL}/api/logs`);
@@ -19,7 +19,7 @@ export async function deleteEntry(entry_id) {
      },
     body: JSON.stringify({id:entry_id}),
   });
-  //console.log("\n\nid:"+entry_id)
+  console.log(response)
 }
 
 export async function uploadImgae(pictures){

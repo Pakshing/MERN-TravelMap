@@ -1,4 +1,7 @@
 {
   "version": 2,
-  "alias": ["travel-log-pak"]
+  "name": "travel-log",
+  "alias": [
+    "travel-log"
+  ]
 }
