@@ -32,8 +32,8 @@ const Card = ({ setShowPopup, title, comment, visitedDate, image,entry,getEntrie
       style={{
         borderStyle: "outset",
         borderColor: "#0e5157",
-        width: "440px",
-        height: "440px",
+        width: "600px",
+        height: "600px",
       }}
       className="card text-center shadow"
     >
@@ -47,6 +47,7 @@ const Card = ({ setShowPopup, title, comment, visitedDate, image,entry,getEntrie
           className="card-img-top"
         />
       </div>
+      
       <div className="card-body text-dark">
         <h4 className="card-title">{title}</h4>
         <p> {comment}</p>
@@ -71,7 +72,6 @@ const Card = ({ setShowPopup, title, comment, visitedDate, image,entry,getEntrie
           onClick={e=>onDeleteClick(e)}
           >
           Delete
-         
         </Button>
       </ButtonGroup>
     </div>

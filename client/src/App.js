@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useState, useEffect, Fragment } from "react";
-import ReactMapGL, { Marker, Popup } from "react-map-gl";
+import ReactMapGL, { Marker,Popup } from "react-map-gl";
+import FullPopup from "reactjs-popup"
+
 
 import Card from "./components/Card";
 import LogEntryForm from "./components/LogEntryForm";
@@ -46,12 +48,32 @@ const App = () => {
     >
       {logEntries.map((entry) => (
         <Fragment key={entry._id}>
+          {showPopup[entry._id] ? (
+            
+            <FullPopup open={true}>
+              <Card
+                getEntries = {getEntries}
+                setShowPopup={setShowPopup}
+                title={entry.title}
+                comment={entry.comments}
+                visitedDate={new Date(entry.visitDate).toLocaleDateString()}
+                image={
+                  entry.image
+                    ? entry.image
+                    : "https://archziner.com/wp-content/uploads/2019/05/blue-sky-planet-stars-drawn-cute-backgrounds-for-girls.jpg"
+                }
+                entry ={entry}
+              ></Card>
+            </FullPopup>
+          
+        ) : null}
           <Marker
             key={entry._id}
             latitude={entry.latitude}
             longitude={entry.longitude}
             offsetLeft={-20}
             offsetTop={-10}
+            dynamicPosition = {true}
           >
             <div
               onClick={() =>
@@ -78,34 +100,8 @@ const App = () => {
               </svg>
             </div>
           </Marker>
-          {showPopup[entry._id] ? (
-            <div>
-              <Popup
-                latitude={entry.latitude}
-                longitude={entry.longitude}
-                closeButton={false}
-                closeOnClick={false}
-                //closeOnMove={() => setShowPopup({})}
-                dynamicPosition={true}
-                onClose={() => setShowPopup({})}
-                //anchor="top"
-              >
-                <Card
-                  getEntries = {getEntries}
-                  setShowPopup={setShowPopup}
-                  title={entry.title}
-                  comment={entry.comments}
-                  visitedDate={new Date(entry.visitDate).toLocaleDateString()}
-                  image={
-                    entry.image
-                      ? entry.image
-                      : "https://archziner.com/wp-content/uploads/2019/05/blue-sky-planet-stars-drawn-cute-backgrounds-for-girls.jpg"
-                  }
-                  entry ={entry}
-                ></Card>
-              </Popup>
-            </div>
-          ) : null}
+
+          
         </Fragment>
       ))}
       {addEntryLocation ? (
@@ -147,7 +143,7 @@ const App = () => {
             onClose={() => setAddEntryLocation(null)}
             //anchor="top"
           >
-            <div className="popup">
+            <div className="popup" style={{width:"525px"}}>
               <LogEntryForm
                 onClose={() => {
                   setAddEntryLocation(null);

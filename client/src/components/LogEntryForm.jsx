@@ -63,7 +63,7 @@ export default function LogEntryForm ({ location, onClose }) {
       //const uploadResponse = await uploadImgae(pictures)
       
       const imageResponse = await uploadImgae(pictures) 
-      console.log("downloadUrl",imageResponse.data.downloadUrl)
+      //console.log("downloadUrl",imageResponse.data.downloadUrl)
 
       //console.log("uploadResponse", uploadResponse)
       let data={};
@@ -77,7 +77,7 @@ export default function LogEntryForm ({ location, onClose }) {
       data.image = imageResponse.data.downloadUrl;
       //data.visitDate = selectedDate;
       //console.log(selectedDate);
-      console.log("this is data: 2" +data.image);
+      //console.log("this is data: 2" +data.image);
       await createLogEntry(data);
       //alert("Entry Created")
       onClose();
@@ -91,8 +91,8 @@ export default function LogEntryForm ({ location, onClose }) {
 
   return (
     
-    <div style={{width:400}}>
-    <form onSubmit={handleSubmit(onSubmit)} className="entry-form">
+    <div >
+    <form onSubmit={handleSubmit(onSubmit)} className="entry-form" >
       {error ? <h3 className="error">{error}</h3> : null}
      
       <TextField

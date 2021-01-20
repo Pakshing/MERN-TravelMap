@@ -20,7 +20,8 @@
     "react-hook-form": "^6.8.2",
     "react-images-upload": "^1.2.8",
     "react-map-gl": "^5.2.7",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "reactjs-popup": "^2.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

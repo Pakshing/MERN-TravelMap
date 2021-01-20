@@ -86,9 +86,8 @@ function uploadToS3(req,res){
     req.s3Key = uuidv4();
     console.log("uploadToS3")
     
-    let downloadUrl =`https://s3-${process.env.region}.amazonaws.com/travelmap-bucket-2021/${req.s3Key}`
-    downloadUrl = `https://travelmap-bucket-2021.s3.${process.env.region}.amazonaws.com/${req.s3Key}`
-  return new Promise((resolve,reject)=>{
+    let  downloadUrl = `https://travelmap-bucket-2021.s3.${process.env.region}.amazonaws.com/${req.s3Key}`
+    return new Promise((resolve,reject)=>{
       return singleFileUpload(req,res,err=>{
           if(err) reject(err);
           return resolve(downloadUrl)
