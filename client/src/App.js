@@ -1,6 +1,8 @@
 import * as React from "react";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect,useRef,useCallback, Fragment } from "react";
 import ReactMapGL, { Marker,Popup } from "react-map-gl";
+import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import Geocoder from "react-map-gl-geocoder";
 import FullPopup from "reactjs-popup"
 
 
@@ -19,6 +21,23 @@ const App = () => {
     longitude: -95.665,
     zoom: 4.5,
   });
+  const mapRef = useRef();
+  const handleViewportChange = useCallback(
+    (newViewport) => setViewport(newViewport),
+    []
+  );
+  const handleGeocoderViewportChange = useCallback(
+    (newViewport) => {
+      const geocoderDefaultOverrides = { transitionDuration: 1000 };
+
+      return handleViewportChange({
+        ...newViewport,
+        ...geocoderDefaultOverrides
+      });
+    },
+    [handleViewportChange]
+  );
+
   const getEntries = async () => {
     const logEntries = await listLogEntries();
     setLogEntries(logEntries);
@@ -38,6 +57,7 @@ const App = () => {
 
   return (
     <ReactMapGL
+      ref={mapRef}
       {...viewport}
       mapStyle="mapbox://styles/pakshing/ckddrnlrt4dvz1ip8brlo1at2"
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
@@ -45,6 +65,12 @@ const App = () => {
       onDblClick={showAddMarkerPopup}
       doubleClickZoom = {false}
     >
+      <Geocoder
+          mapRef={mapRef}
+          onViewportChange={handleGeocoderViewportChange}
+          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+          position="top-left"
+        />
       {logEntries.map((entry) => (
         <Fragment key={entry._id}>
           {showPopup[entry._id] ? (
