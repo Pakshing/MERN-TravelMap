@@ -19,7 +19,7 @@ export async function deleteEntry(entry_id) {
      },
     body: JSON.stringify({id:entry_id}),
   });
-  console.log(response)
+  //console.log(response)
 }
 
 export async function uploadImgae(pictures){

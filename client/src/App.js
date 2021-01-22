@@ -38,10 +38,13 @@ const App = () => {
     [handleViewportChange]
   );
 
+
   const getEntries = async () => {
     const logEntries = await listLogEntries();
     setLogEntries(logEntries);
   };
+
+
 
   useEffect(() => {
     getEntries();
@@ -81,6 +84,7 @@ const App = () => {
                 setShowPopup={setShowPopup}
                 title={entry.title}
                 comment={entry.comments}
+                description = {entry.description}
                 visitedDate={new Date(entry.visitDate).toLocaleDateString()}
                 image={
                   entry.image

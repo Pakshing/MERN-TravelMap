@@ -6,6 +6,8 @@ import { createLogEntry,uploadImgae } from "../API";
 
 //import { FormControl } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import ImageUploader from 'react-images-upload';
 
 import 'date-fns';
@@ -20,9 +22,8 @@ export default function LogEntryForm ({ location, onClose }) {
 
   const [error, setError] = useState("");
   const {handleSubmit} = useForm();
-  const [selectedDate, setSelectedDate] = useState(null); 
+  const [selectedDate, setSelectedDate] = useState(new Date()); 
   const [title,setTitle] = useState("");
-  const [comments,setComments] = useState("");
   const [description, setDescription] = useState("");
   
 
@@ -41,6 +42,12 @@ export default function LogEntryForm ({ location, onClose }) {
     console.log(picture)
   };
 
+
+  const setVisitDate =(date) =>{
+    setSelectedDate(date);
+    console.log(selectedDate);
+    console.log(date)
+}
   
 
   const onSubmit = async() => {
@@ -57,10 +64,8 @@ export default function LogEntryForm ({ location, onClose }) {
       data.latitude = location.latitude;
       data.longitude = location.longitude;
       data.title = title;
-      data.comments = comments;
       data.visitDate = selectedDate;
       data.description = description;
-     
       await createLogEntry(data);
       //alert("Entry Created")
       onClose();
@@ -89,20 +94,10 @@ export default function LogEntryForm ({ location, onClose }) {
           style = {{width: 500}}
           ref = {inputRef}
         />
-      <TextField
-          name="comments"
-          id="standard-textarea"
-          label="Comment"
-          placeholder="The view is great!"
-          multiline
-          style = {{width: 500}}
-          onChange ={e=>setComments(e.target.value)}
-          ref={inputRef}
-        />
+     
       
       <TextField
           name="description"
-          id="standard-textarea"
           label="Description"
           placeholder="This place....."
           multiline
@@ -124,20 +119,17 @@ export default function LogEntryForm ({ location, onClose }) {
         />
 
         </div>
+      <div>
+      <label>Visit Date*</label>
+      <DatePicker
+        
+        selected={selectedDate}
+        onChange={date=>setVisitDate(date)}
+        dateFormat="MM/dd/yyyy"
+        required
+      />
+      </div>
 
-      <TextField
-          required
-          name="date"
-          id="standard-textarea"
-          type = "date"
-          style = {{
-            width: 500,
-            marginTop:10  
-          }}
-          onChange ={e=>setSelectedDate(e.target.value)}
-          defaultValue = {selectedDate}
-          ref={inputRef}
-        />
       
 
      

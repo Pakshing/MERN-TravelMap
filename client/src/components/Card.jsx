@@ -7,7 +7,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup'
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
-const Card = ({ setShowPopup, title, comment, visitedDate, image,entry,getEntries }) => {
+const Card = ({ setShowPopup, title, description, visitedDate, image,entry,getEntries }) => {
 
   const addDefaultImage = e =>{
     e.target.src = "https://archziner.com/wp-content/uploads/2019/05/blue-sky-planet-stars-drawn-cute-backgrounds-for-girls.jpg";
@@ -15,7 +15,6 @@ const Card = ({ setShowPopup, title, comment, visitedDate, image,entry,getEntrie
 
   const onDeleteClick = async () =>{
     try{
-      console.log("Entry:" +entry._id);
       await deleteEntry(entry._id)
       getEntries();
       alert("Entry deleted")
@@ -50,7 +49,8 @@ const Card = ({ setShowPopup, title, comment, visitedDate, image,entry,getEntrie
       
       <div className="card-body text-dark">
         <h4 className="card-title">{title}</h4>
-        <p> {comment}</p>
+        
+        <p> {description}</p>
         <p className="card-text text-secondary"> {visitedDate}</p>
       </div>
       <ButtonGroup
