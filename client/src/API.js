@@ -12,7 +12,7 @@ export async function listLogEntries() {
 
 export async function deleteEntry(entry_id) {
 
-  const response = await fetch(`${API_URL}/api/logs`, {
+  await fetch(`${API_URL}/api/logs`, {
     method: "DELETE",
     headers: {
       'Content-type': 'application/json; charset=UTF-8' // Indicates the content 

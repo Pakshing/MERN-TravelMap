@@ -23,8 +23,17 @@
   transition: transform 2s ease;
 }
 
+.card-title {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .card-img-top:hover {
   transform: scale(1.1);
+}
+
+.description {
+  padding: 0.3rem;
 }
 
 img {
@@ -33,9 +42,9 @@ img {
   max-height: 700px;
 }
 
-@media all and (max-width: 500px) {
+@media all and (max-width: 400px) {
   .card {
-    max-width: 350px;
-    max-height: 500px;
+    max-width: 90vw;
+    max-height: 60vh;
   }
 }

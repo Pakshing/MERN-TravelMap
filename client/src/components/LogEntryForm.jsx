@@ -8,7 +8,7 @@ import { createLogEntry,uploadImgae } from "../API";
 import TextField from '@material-ui/core/TextField';
 import DatePicker from "react-datepicker";
 import ImageUploader from 'react-images-upload';
-import {Row, Container, Col} from 'react-bootstrap'
+import {Container} from 'react-bootstrap'
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./entryForm-style.css";
@@ -114,12 +114,12 @@ export default function LogEntryForm ({ location, onClose }) {
             withPreview={true}
             buttonText='Select an image'
             onChange={onDrop}
-            imgExtension={['.jpg', '.gif', '.png', '.gif']}
+            imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
             maxFileSize={5242880}
         />
         </Container>
 
-      <Container>
+      <Container className ="date-picker-container">
       <label>Visit Date*</label>
       <DatePicker
         className="date-picker"

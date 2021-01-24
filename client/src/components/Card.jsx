@@ -51,7 +51,7 @@ const Card = ({ setShowPopup, title, description, visitedDate, image,entry,getEn
       <div className="card-body text-dark">
         <h4 className="card-title">{title}</h4>
         
-        <p> {description}</p>
+        <p className="description"> {description}</p>
         <p className="card-text text-secondary"> {visitedDate}</p>
       </div>
       <ButtonGroup
