@@ -1,0 +1,41 @@
+.form-div {
+  width: 200;
+  max-width: 400px;
+}
+
+.textfield {
+  width: 400px;
+}
+
+.imageUploader {
+  width: 400px;
+}
+
+.button-container {
+  width: 425px;
+}
+
+.button {
+  background: linear-gradient(45deg, #fe6b8b, #ff8e53);
+
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+@media all and (max-width: 500px) {
+  .textfield {
+    max-width: 250px;
+  }
+  .imageUploader {
+    max-width: 250px;
+  }
+  .entry-form {
+    max-width: 280px;
+    max-height: auto;
+  }
+  .button {
+    max-width: 250px;
+  }
+}

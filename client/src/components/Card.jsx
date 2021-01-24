@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Card = ({ setShowPopup, title, description, visitedDate, image,entry,getEntries }) => {
 
@@ -31,10 +32,10 @@ const Card = ({ setShowPopup, title, description, visitedDate, image,entry,getEn
       style={{
         borderStyle: "outset",
         borderColor: "#0e5157",
-        width: "600px",
-        height: "600px",
+        width: "700px",
+        height: "700px",
       }}
-      className="card text-center shadow"
+      className="card text-center shadow "
     >
       <div className="overflow">
         

@@ -7,8 +7,12 @@ import { createLogEntry,uploadImgae } from "../API";
 //import { FormControl } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import ImageUploader from 'react-images-upload';
+import {Row, Container, Col} from 'react-bootstrap'
+
+import "react-datepicker/dist/react-datepicker.css";
+import "./entryForm-style.css";
+
 
 import 'date-fns';
 
@@ -27,14 +31,6 @@ export default function LogEntryForm ({ location, onClose }) {
   const [description, setDescription] = useState("");
   
 
-
- 
-  const buttonStyle={
-    background: 'linear-gradient(45deg, #FE6B8B, #FF8E53)',
-    width: '500px',
-    color: 'white',
-    border: 'none'
-  }
 
 
   const onDrop = picture => {
@@ -79,66 +75,73 @@ export default function LogEntryForm ({ location, onClose }) {
 
   return (
     
-    <div >
+    <div className="form-div">
     <form onSubmit={handleSubmit(onSubmit)} className="entry-form" >
       {error ? <h3 className="error">{error}</h3> : null}
-     
+     <Container>
       <TextField
           required
+          className="textfield"
           name="title"
           id="outlined-required"
           label="Required Title"
           placeholder="Title"
           //variant="outlined"
           onChange ={e=>setTitle(e.target.value)}
-          style = {{width: 500}}
+         
           ref = {inputRef}
         />
-     
+     </Container>
       
+      <Container>
       <TextField
           name="description"
           label="Description"
           placeholder="This place....."
+          className="textfield"
           multiline
           onChange ={e=>setDescription(e.target.value)}
-          style = {{width: 500}}
+         
           ref={inputRef}
         />
+        </Container>
 
-        <div>
+        <Container>
         <ImageUploader
             singleImage = {true}
             withIcon={true}
-            style={{width:500}}
+            className="imageUploader"
             withPreview={true}
             buttonText='Select an image'
             onChange={onDrop}
             imgExtension={['.jpg', '.gif', '.png', '.gif']}
             maxFileSize={5242880}
         />
+        </Container>
 
-        </div>
-      <div>
+      <Container>
       <label>Visit Date*</label>
       <DatePicker
-        
+        className="date-picker"
         selected={selectedDate}
         onChange={date=>setVisitDate(date)}
         dateFormat="MM/dd/yyyy"
         required
       />
-      </div>
+      </Container>
 
       
 
      
+     <Container className="button-container">
       <button 
+      className="button"
       disabled={loading}
-      style={buttonStyle}
       >
         {loading ? "Loading..." : "Create Entry"}
       </button>
+      </Container>
+
     </form>
     </div>
     
