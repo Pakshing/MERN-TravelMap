@@ -17,9 +17,9 @@ const App = () => {
   const [viewport, setViewport] = useState({
     width: "100vw",
     height: "100vh",
-    latitude: 37.6,
-    longitude: -95.665,
-    zoom: 4.5,
+    latitude: 36.778259,
+    longitude: -119.417931,
+    zoom: 6,
   });
   const mapRef = useRef();
   const handleViewportChange = useCallback(

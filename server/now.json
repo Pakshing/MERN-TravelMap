@@ -19,7 +19,7 @@
     "NODE_ENV": "production",
     "PORT": "1337",
     "DATABASE_URL": "@travel-log-db",
-    "CORS_ORIGIN": "*",
+    "CORS_ORIGIN": "https://travel-log.pakshing.vercel.app",
     "secretAccessKey": "@secretaccesskey",
     "accessKeyId" :"@accesskeyid",
     "region" :"@region"
