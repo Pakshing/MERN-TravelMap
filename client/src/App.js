@@ -80,6 +80,7 @@ const App = () => {
             
             <FullPopup open={true}>
               <Card
+                DELETE_PASSWORD = {process.env.REACT_APP_DELETE_KEY}
                 getEntries = {getEntries}
                 setShowPopup={setShowPopup}
                 title={entry.title}

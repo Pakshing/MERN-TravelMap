@@ -8,7 +8,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Card = ({ setShowPopup, title, description, visitedDate, image,entry,getEntries }) => {
+const Card = ({ setShowPopup, title, description, visitedDate, image,entry,getEntries, DELETE_PASSWORD }) => {
 
   const addDefaultImage = e =>{
     e.target.src = "https://archziner.com/wp-content/uploads/2019/05/blue-sky-planet-stars-drawn-cute-backgrounds-for-girls.jpg";
@@ -16,9 +16,16 @@ const Card = ({ setShowPopup, title, description, visitedDate, image,entry,getEn
 
   const onDeleteClick = async () =>{
     try{
-      await deleteEntry(entry._id)
-      getEntries();
-      alert("Entry deleted")
+      var password = prompt('Enter password to delete:')
+     
+      if( password === DELETE_PASSWORD){
+        await deleteEntry(entry._id)
+        getEntries();
+        alert("Entry deleted")
+      }else{
+        alert("Wrong password")
+      }
+     
 
     }catch(error){
       console.error(error);
